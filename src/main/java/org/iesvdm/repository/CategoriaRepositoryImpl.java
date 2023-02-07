@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.iesvdm.domain.Categoria;
 import org.iesvdm.dto.CategoriaDTO;
+import org.iesvdm.dto.CategoriaDTO2;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -53,6 +54,24 @@ public class CategoriaRepositoryImpl implements CategoriaRepository{
 																														, rs.getDate("ultima_actualizacion")));
 
 		return listaCategoria;
+	}
+
+	@Override
+	public List<CategoriaDTO2> findDTOCountAlm(Long id) {
+		List<CategoriaDTO2> listaCategoriaDTO2 = this.jdbcTemplate.query("""
+				select C.*, I.id_almacen, count(P_C.id_pelicula) as conteoPelisAlm from categoria C 
+					left join pelicula_categoria P_C on C.id_categoria = P_C.id_categoria 
+					left join inventario I on I.id_pelicula = P_C.id_pelicula where C.id_categoria = ? group by C.id_categoria, I.id_almacen 	
+			"""
+									, (rs, rowNum) -> new CategoriaDTO2(rs.getInt("id_categoria")
+																	, rs.getString("nombre")
+																	, rs.getDate("ultima_actualizacion")
+																	, rs.getInt("id_almacen")
+																	, rs.getInt("conteoPelisAlm"))
+																	
+									, id);
+	
+	return listaCategoriaDTO2;
 	}
 	
 	

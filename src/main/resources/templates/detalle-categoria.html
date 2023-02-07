@@ -3,32 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <title th:text="#{detalleCategoria}">Detalle Categoría</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}" />
 <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 <!-- Para livereload in html -->
 <script src="http://localhost:35729/livereload.js"></script>
 </head>
 <body>
-<!-- utilizando grid bootstrap tipo: stacked to horizontal -->
-<div class="container">
-	<div class="row">
-		<div class="col-md-12"><span class="h1" th:text="#{detalleCategoria}"></span></div>
+	<!-- utilizando grid bootstrap tipo: stacked to horizontal -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<span class="h1" th:text="#{detalleCategoria}"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6" th:text="#{categoria.id}"></div>
+			<div class="col-md-6" th:text="${categoriaDTO.id}"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-6" th:text="#{categoria.nombre}"></div>
+			<div class="col-md-6" th:text="${categoriaDTO.nombre}"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-6" th:text="#{categoria.conteoPeliculas}"></div>
+			<div class="col-md-6" th:text="${categoriaDTO.conteoPeliculas}"></div>
+		</div>
+		<hr>
+		<h2>Peliculas por almacén</h2>
+		<hr>
+		<div th:each="categoriaDTO2: ${listaDTO2}">
+			<div class="row">
+				<div class="col-md-6" th:if="${categoriaDTO2.id_almacen == 0}" th:text="#{categoria.sinAlmacen}"></div>
+				<div class="col-md-6" th:unless="${categoriaDTO2.id_almacen == 0}" th:text="#{categoria.idAlmacen}"></div>
+				<div class="col-md-6" th:unless="${categoriaDTO2.id_almacen == 0}" th:text="${categoriaDTO2.id_almacen}"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" th:text="#{categoria.conteoPeliculasAlmacen}"></div>
+				<div class="col-md-6" th:text="${categoriaDTO2.conteoPeliculasAlm}"></div>
+			</div>
+			<hr>
+		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-12"><hr/></div>
-	</div>
-	<div class="row">
-		<div class="col-md-6" th:text="#{categoria.id}"></div>
-		<div class="col-md-6" th:text="${categoriaDTO.id}"></div>
-	</div>
-	<div class="row">
-		<div class="col-md-6" th:text="#{categoria.nombre}"></div>
-		<div class="col-md-6" th:text="${categoriaDTO.nombre}"></div>
-	</div>
-	<div class="row">
-		<div class="col-md-6" th:text="#{categoria.conteoPeliculas}"></div>
-		<div class="col-md-6" th:text="${categoriaDTO.conteoPeliculas}"></div>
-	</div>
-</div>
 </body>
 </html>
